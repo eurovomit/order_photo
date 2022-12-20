@@ -26,3 +26,44 @@ CREATE TABLE shooting (
     shooting_date TEXT
 );
 
+-- создаем таблицу фото
+CREATE TABLE photo (
+    photo_id INTEGER PRIMARY KEY,
+    photo_name TEXT,
+    photo_path TEXT,
+    photo_shooting INTEGER REFERENCES shooting(shooting_id)
+
+);
+
+-- создаем таблицу размеров фото
+CREATE TABLE type (
+    type_id INTEGER PRIMARY KEY,
+    type_size TEXT
+);
+
+-- создаем таблицу цен
+CREATE TABLE price (
+    price_id INTEGER PRIMARY KEY,
+    price_size INTEGER REFERENCES type(type_id),
+    price_money INTEGER
+);
+
+-- создаем таблицу категорий пользователей
+CREATE TABLE category (
+    category_id INTEGER PRIMARY KEY,
+    category_name TEXT,
+    category_action REAL
+);
+
+-- создаем таблицу пользователей
+CREATE TABLE user (
+    user_id INTEGER PRIMARY KEY,
+    user_name TEXT,
+    user_login TEXT,
+    user_password TEXT,
+    user_phone TEXT,
+    user_email TEXT,
+    user_kg INTEGER REFERENCES kindergarten(kindergarten_id),
+    user_category INTEGER REFERENCES category(category_id)
+);
+
