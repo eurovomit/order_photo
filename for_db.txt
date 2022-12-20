@@ -1,0 +1,13 @@
+-- создаем таблицу детских садов
+CREATE TABLE kindergarten (
+    kindergarten_id INTEGER PRIMARY KEY,
+    kindergarten_name TEXT,
+    kindergarten_city TEXT
+);
+
+-- создаем таблицу групп детских садов
+CREATE TABLE groups (
+    group_id INTEGER PRIMARY KEY,
+    group_name TEXT,
+    group_kg INTEGER REFERENCES kindergarten(kindergarten_id)
+);
