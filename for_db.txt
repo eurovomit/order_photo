@@ -11,3 +11,18 @@ CREATE TABLE groups (
     group_name TEXT,
     group_kg INTEGER REFERENCES kindergarten(kindergarten_id)
 );
+
+-- создаем список тем
+CREATE TABLE theme (
+    theme_id INTEGER PRIMARY KEY,
+    theme_name TEXT
+);
+
+-- создаем таблицу съемок
+CREATE TABLE shooting (
+    shooting_id INTEGER PRIMARY KEY,
+    shooting_group INTEGER REFERENCES groups(group_id),
+    shooting_theme INTEGER REFERENCES theme(theme_id),
+    shooting_date TEXT
+);
+
