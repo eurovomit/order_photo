@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <form action="/enter" method="post">
+        <p><label>телефон</label> <input type="text" name="phone"></p>
+        <p><label>пароль</label> <input type="password" name="password"></p>
+        <p><input type="submit" value="войти"></p>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}
