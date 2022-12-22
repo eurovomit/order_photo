@@ -67,4 +67,57 @@ CREATE TABLE user (
     user_category INTEGER REFERENCES category(category_id)
 );
 
+-- создаем таблицу статусов
+CREATE TABLE status (
+    status_id INTEGER PRIMARY KEY,
+    status_name TEXT
+);
 
+-- создаем корзину
+CREATE TABLE basket (
+    basket_id INTEGER PRIMARY KEY,
+    basket_user INTEGER REFERENCES user(user_id)
+);
+
+-- создаем вспомогательную таблицу для содержимого корзины
+CREATE TABLE basket_photo (
+    basket_id INTEGER REFERENCES basket(basket_id),
+    photo_id INTEGER REFERENCES photo(photo_id),
+    type_id INTEGER REFERENCES type(type_id),
+    count INTEGER,
+    PRIMARY KEY(basket_id, photo_id, type_id)
+);
+
+-- создаем таблицу заказов
+CREATE TABLE orders (
+    order_id INTEGER PRIMARY KEY,
+    order_user INTEGER REFERENCES user(user_id),
+    order_status INTEGER REFERENCES status(status_id),
+    price INTEGER
+);
+
+-- создаем вспомогательную таблицу для заказов
+CREATE TABLE order_photo (
+    order_id INTEGER REFERENCES orders(order_id),
+    photo_id INTEGER REFERENCES photo(photo_id),
+    type_id INTEGER REFERENCES type(type_id),
+    count INTEGER
+);
+
+-- создадим таблицу возможных действий для логирования
+CREATE TABLE action (
+    action_id INTEGER PRIMARY KEY,
+    action_name TEXT
+);
+
+-- создадим таблицу логирования
+CREATE TABLE logs (
+    id INTEGER PRIMARY KEY,
+    date TEXT,
+    time TEXT,
+    user INTEGER REFERENCES user(user_id),
+    action_id INTEGER REFERENCES action(action_id),
+    photo INTEGER REFERENCES photo(photo_id),
+    type INTEGER REFERENCES type(type_id),
+    count INTEGER
+);
