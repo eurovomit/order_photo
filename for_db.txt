@@ -67,3 +67,4 @@ CREATE TABLE user (
     user_category INTEGER REFERENCES category(category_id)
 );
 
+
