@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <p>{{ title }}</p>
+    <p>вернуться на <a href="{{url_for('index')}}">главную</a></p>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}
