@@ -5,10 +5,6 @@
 {% endblock %}
 
 {% block content %}
-<!--    конструкция с cat для задания стиля-->
-    {% for cat, msg in get_flashed_messages(True) %}
-        <div class="flash {{cat}}">{{ msg }}</div>
-    {% endfor %}
     <form action="/enter" method="post">
         <p><label>телефон</label> <input type="text" name="phone"></p>
         <p><label>пароль</label> <input type="password" name="password"></p>

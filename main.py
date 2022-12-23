@@ -1,6 +1,8 @@
 import sqlite3
 
-from flask import Flask, render_template, request, session, redirect, url_for, abort, g
+from flask import Flask, render_template, request, session, redirect, url_for, abort, g, flash
+
+from order_photo.fdatabase import FDatabase
 
 messanger = ['whatsapp', 'viber', 'telegram']
 hat = ['главная', 'каталог', 'ДС', 'выйти', 'войти', 'пользователь',
@@ -55,12 +57,6 @@ def enter():
             and request.form['password'] == 'A1h9v9s0':
         session['userLogged'] = request.form['phone']
         return redirect(url_for('profile', username=session['userLogged']))
-
-    # if request.method == 'POST':
-    #     if len(request.form['phone']) > 5:
-    #         flash(message='вход в аккаунт', category='succes')
-    #     else:
-    #         flash(message='неправильные данные', category='error')
     return render_template('enter.html')
 
 
@@ -71,6 +67,17 @@ def profile(username):
         abort(401)
     return f'profile {username}'
 
+# админка детских садов
+@app.route('/adminds', methods=['POST', 'GET'])
+def adminds():
+    db = get_db()
+    if request.method == 'POST':
+        res = FDatabase(db).insert_ds(request.form['ds'], request.form['city'])
+        if not res:
+            flash('ошибка добавления ДС', category='error')
+        else:
+            flash('ДС добавлен успешно', category='success')
+    return render_template('adminds.html', messanger=messanger, hat=hat)
 
 # обработка не найденной страницы
 @app.errorhandler(404)

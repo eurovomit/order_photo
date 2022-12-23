@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <!--    конструкция с cat для задания стиля-->
+    {% for cat, msg in get_flashed_messages(True) %}
+        <div class="flash {{cat}}">{{ msg }}</div>
+    {% endfor %}
+    <form action="/adminds" method="post">
+        <p><label>ДС</label> <input type="text" name="ds"></p>
+        <p><label>Город</label> <input type="text" name="city"></p>
+        <p><input type="submit" value="создать"></p>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}
