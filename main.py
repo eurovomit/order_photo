@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 
 
 messanger = ['whatsapp', 'viber', 'telegram']
@@ -7,6 +7,7 @@ hat = ['главная', 'каталог', 'ДС', 'выйти', 'войти', '
 
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'kjhgjhgddjhkgkljH76876587'
 
 
 @app.route('/')
@@ -17,10 +18,10 @@ def index():
 @app.route('/enter', methods=['POST', 'GET'])
 def enter():
     if request.method == 'POST':
-        print('post')
-        print(request.form)
-    else:
-        print('get')
+        if len(request.form['phone']) > 5:
+            flash(message='вход в аккаунт', category='succes')
+        else:
+            flash(message='неправильные данные', category='error')
     return render_template('enter.html')
 
 
