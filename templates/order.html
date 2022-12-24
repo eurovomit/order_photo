@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <p> Заказ № {{ order_id }}</p>
+    <ul>
+    {% for ord in res %}
+        <li>{{ ord.photo_name }} {{ ord.type_size }} {{ ord.count }} {{ ord.cost }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}

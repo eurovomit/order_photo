@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <ul>
+    {% for ord in res %}
+        <li><a href="{{ url_for('order_detail', order_id=ord.order_id) }}">{{ ord.order_id }}</a> {{ ord.user_login }} {{ ord.user_phone }} {{ ord.status_name }} {{ ord.price }}</li>
+    {% endfor %}
+    </ul>
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}

@@ -79,6 +79,25 @@ def adminds():
             flash('ДС добавлен успешно', category='success')
     return render_template('adminds.html', messanger=messanger, hat=hat)
 
+# админка заказов
+@app.route('/adminorders')
+def adminorders():
+    db = get_db()
+    res = FDatabase(db).show_orders()
+    return render_template('adminorders.html', res=res, messanger=messanger, hat=hat)
+
+# создаем страницу подробностей заказа
+# сначала отображаем все заказы из БД
+# потом создаем ссылку на номере заказа и передаем ее в адрес <order_id>
+# по этому номеру делаем выборку фото из заказов
+@app.route('/order/<order_id>')
+def order_detail(order_id):
+    db = get_db()
+    res = FDatabase(db).show_order(order_id)
+    if len(res) == 0:
+        abort(404)
+    return render_template('order.html', res=res, messanger=messanger, hat=hat)
+
 # обработка не найденной страницы
 @app.errorhandler(404)
 def page_not_found(error):
