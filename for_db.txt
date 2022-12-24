@@ -38,7 +38,8 @@ CREATE TABLE photo (
 -- создаем таблицу размеров фото
 CREATE TABLE type (
     type_id INTEGER PRIMARY KEY,
-    type_size TEXT
+    type_size TEXT,
+    type_price INTEGER
 );
 
 -- создаем таблицу цен

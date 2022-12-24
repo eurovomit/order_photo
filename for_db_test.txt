@@ -1,0 +1,129 @@
+PRAGMA foreign_keys = on;
+
+INSERT INTO kindergarten
+VALUES (NULL, '101', 'Калининград'),
+       (NULL, '102', 'Светлогорск'),
+       (NULL, '103', 'Гвардейск'),
+       (NULL, '104', 'Калининград');
+
+INSERT INTO category
+VALUES (NULL, 'админимтратор', 1),
+       (NULL, 'пользователь', 0),
+       (NULL, 'сотрудник', 0.5);
+
+INSERT INTO type
+VALUES (NULL, '10x15', 160),
+       (NULL, '15x23', 250),
+       (NULL, '20x30', 350),
+       (NULL, '30x45', 500),
+       (NULL, 'календарь', 500),
+       (NULL, 'магнит', 160);
+
+INSERT INTO groups
+VALUES (NULL, 'чебурашки', 1),
+       (NULL, 'неваляшки', 1),
+       (NULL, 'матрешки', 1),
+       (NULL, 'васильки', 2),
+       (NULL, 'ландыши', 2),
+       (NULL, 'одуванчики', 2),
+       (NULL, 'котики', 3),
+       (NULL, 'зайчики', 3),
+       (NULL, 'утята', 3),
+       (NULL, 'старшая', 4),
+       (NULL, 'средняя', 4),
+       (NULL, 'младшая', 4);
+
+INSERT INTO theme
+VALUES (NULL, 'гимназисты'),
+       (NULL, 'морозко'),
+       (NULL, 'тройка');
+
+INSERT INTO user
+VALUES (NULL, 'Мария', 'eurobich', '1234', '+79814600000', 'a@mail.ru', 1, 2),
+       (NULL, 'Евгения', 'eurokrevetka', '1235', '+79814600001', 'b@mail.ru', 1, 2),
+       (NULL, 'Виктория', 'eurokld', '1236', '+79814600002', 'c@mail.ru', 2, 2),
+       (NULL, 'Людмила', 'eurovomit', '1237', '+79814600003', 'd@mail.ru', 2, 2),
+       (NULL, 'Оксана', 'eurozomby', '1238', '+79814600004', 'e@mail.ru', 3, 2),
+       (NULL, 'Маргарита', 'eurosparrow', '1239', '+79814600005', 'f@mail.ru', 4, 2);
+
+CREATE TRIGGER add_basket AFTER INSERT
+ON user
+BEGIN
+INSERT INTO basket
+VALUES (NULL, new.user_id);
+end;
+
+CREATE TRIGGER del_basket BEFORE DELETE
+ON user
+BEGIN
+DELETE FROM basket WHERE basket.basket_user = old.user_id;
+end;
+
+INSERT INTO shooting
+VALUES (NULL, 1, 1, '2022-06-02'),
+       (NULL, 2, 1, '2022-06-02'),
+       (NULL, 3, 1, '2022-06-02'),
+       (NULL, 4, 2, '2022-06-03'),
+       (NULL, 5, 2, '2022-06-03'),
+       (NULL, 6, 2, '2022-06-03'),
+       (NULL, 7, 2, '2022-06-04'),
+       (NULL, 8, 2, '2022-06-04'),
+       (NULL, 9, 2, '2022-06-04'),
+       (NULL, 10, 3, '2022-06-05'),
+       (NULL, 11, 3, '2022-06-05'),
+       (NULL, 12, 3, '2022-06-05');
+
+INSERT INTO status
+VALUES (NULL, 'ждет подтверждения оплаты'),
+       (NULL, 'заказ обрабатывается'),
+       (NULL, 'отправлен на печать'),
+       (NULL, 'доставка в Калининград'),
+       (NULL, 'доставка в детский сад'),
+       (NULL, 'готов к выдаче');
+
+INSERT INTO action
+VALUES (NULL, 'добавлены данные'),
+       (NULL, 'удалены данные'),
+       (NULL, 'изменены данные');
+
+INSERT INTO photo
+VALUES (NULL, '48402', 'static/img/48402.jpg', 1),
+       (NULL, '48403', 'static/img/48403.jpg', 1),
+       (NULL, '48404', 'static/img/48404.jpg', 2),
+       (NULL, '48405', 'static/img/48405.jpg', 2),
+       (NULL, '48406', 'static/img/48406.jpg', 3),
+       (NULL, '48407', 'static/img/48407.jpg', 3),
+       (NULL, '48408', 'static/img/48408.jpg', 4),
+       (NULL, '48409', 'static/img/48409.jpg', 4),
+       (NULL, '48410', 'static/img/48410.jpg', 5),
+       (NULL, '48411', 'static/img/48411.jpg', 5),
+       (NULL, '48412', 'static/img/48412.jpg', 6),
+       (NULL, '48413', 'static/img/48413.jpg', 6),
+       (NULL, '48414', 'static/img/48414.jpg', 7),
+       (NULL, '48415', 'static/img/48415.jpg', 7),
+       (NULL, '48416', 'static/img/48416.jpg', 8),
+       (NULL, '48417', 'static/img/48417.jpg', 8),
+       (NULL, '48418', 'static/img/48418.jpg', 9),
+       (NULL, '48420', 'static/img/48420.jpg', 9),
+       (NULL, '48421', 'static/img/48421.jpg', 10),
+       (NULL, '48422', 'static/img/48422.jpg', 10),
+       (NULL, '48423', 'static/img/48423.jpg', 11),
+       (NULL, '48424', 'static/img/48424.jpg', 11),
+       (NULL, '48425', 'static/img/48425.jpg', 12),
+       (NULL, '48426', 'static/img/48426.jpg', 12);
+
+INSERT INTO basket_photo
+VALUES (1, 1, 1, 1),
+       (1, 2, 2, 1),
+       (1, 3, 3, 2);
+
+INSERT INTO orders
+VALUES (NULL, 2, 1, 1345);
+
+INSERT INTO order_photo
+VALUES (1, 4, 1, 1),
+       (1, 4, 2, 1),
+       (1, 5, 3, 2);
+
+
+
