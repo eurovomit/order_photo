@@ -38,3 +38,25 @@ class FDatabase:
             return res
         except sqlite3.Error as e:
             print(str(e))
+
+    def uniquephone(self, phone):
+        try:
+            self.__cur.execute("""SELECT * FROM user
+                                  WHERE user_phone = ?;""", (phone,))
+            res = self.__cur.fetchall()
+            if len(res) > 0:
+                return False
+            else:
+                return True
+        except sqlite3.Error as e:
+            print(str(e))
+
+    def adduser(self, phone, hash):
+        try:
+            self.__cur.execute("""INSERT INTO user
+                                  VALUES (NULL, NULL, NULL, ?, ?, NULL, 1, 2);""", (hash, phone))
+            self.__db.commit()
+        except sqlite3.Error as e:
+            print('ошибка добавления детского сада' + str(e))
+            return False
+        return True

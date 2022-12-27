@@ -8,14 +8,11 @@
     {% for cat, msg in get_flashed_messages(True) %}
         <div class="flash {{cat}}">{{ msg }}</div>
     {% endfor %}
-    <form action="/enter" method="post">
+    <form action="/register" method="post">
         <p><label>телефон</label> <input type="text" name="phone"></p>
         <p><label>пароль</label> <input type="password" name="password"></p>
-        <p><label>
-            <input type="checkbox" name="remember">
-        </label>запомнить меня</p>
-        <p><input type="submit" value="войти"></p>
-        <p><a href="{{ url_for('register') }}">регистрация</a></p>
+        <p><label>повторите пароль</label> <input type="password" name="password1"></p>
+        <p><input type="submit" value="зарегистрироваться"></p>
     </form>
 {% endblock %}
 
