@@ -60,3 +60,29 @@ class FDatabase:
             print('ошибка добавления детского сада' + str(e))
             return False
         return True
+
+    def getuser(self, user_id):
+        try:
+            self.__cur.execute("""SELECT * FROM user
+                                  WHERE user_id = ?;""", (user_id, ))
+            res = self.__cur.fetchone()
+            if not res:
+                print('пользователь не найден')
+                return False
+            return res
+        except sqlite3.Error as e:
+            print('ошибка ' + str(e))
+        return False
+
+    def getuserbyphone(self, phone):
+        try:
+            self.__cur.execute("""SELECT * FROM user
+                                  WHERE user_phone = ?;""", (phone, ))
+            res = self.__cur.fetchone()
+            if not res:
+                print('пользователь не найден')
+                return False
+            return res
+        except sqlite3.Error as e:
+            print('ошибка ' + str(e))
+        return False

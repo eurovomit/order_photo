@@ -3,6 +3,8 @@ import sqlite3
 from flask import Flask, render_template, request, session, redirect, url_for, abort, g, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from order_photo.fdatabase import FDatabase
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from UserLogin import UserLogin
 
 messanger = ['whatsapp', 'viber', 'telegram']
 hat = ['главная', 'каталог', 'ДС', 'выйти', 'войти', 'пользователь',
@@ -16,6 +18,14 @@ SECRET_KEY = 'gfjjsdkjvjshg8798.>kjhg'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+login_manager = LoginManager(app)
+login_manager.login_view = 'enter'
+login_manager.login_message = 'сначала авторизуйся'
+login_manager.login_message_category = 'success'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return UserLogin().fromdb(user_id, dbase)
 
 # функция соединения с БД
 def connect_db():
@@ -58,14 +68,21 @@ def index():
 
 @app.route('/enter', methods=['POST', 'GET'])
 def enter():
-    # если переменная userLogged с логином и паролем в сессии
-    if 'userLogged' in session:
-        return redirect(url_for('profile', username=session['userLogged']))
-    elif request.method == 'POST' and request.form['phone'] == '+79814600001' \
-            and request.form['password'] == 'A1h9v9s0':
-        session['userLogged'] = request.form['phone']
-        return redirect(url_for('profile', username=session['userLogged']))
-    return render_template('enter.html')
+    if current_user.is_authenticated:
+        return redirect(url_for('profile'))
+    if request.method == 'POST':
+        user = dbase.getuserbyphone(request.form['phone'])
+        if user and check_password_hash(user['user_password'], request.form['password']):
+            userlogin = UserLogin().create(user)
+            rm = True if request.form.get('remember') else False
+            login_user(userlogin, remember=rm)
+
+            return redirect(request.args.get('next') or url_for('profile'))
+
+        flash('неверная пара логин/пароль', 'error')
+
+    return render_template('enter.html', messanger=messanger, hat=hat)
+
 
 
 @app.route('/register', methods=['POST', 'GET'])
@@ -87,16 +104,22 @@ def register():
 
     return render_template('register.html')
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('вы вышли из аккаунта', 'success')
+    return redirect(url_for('enter'))
 
-@app.route('/profile/<username>')
-def profile(username):
-    # если эта переменная не в сессии, или логин не совпадает
-    if 'userLogged' not in session or session['userLogged'] != username:
-        abort(401)
-    return f'profile {username}'
+@app.route('/profile')
+@login_required
+def profile():
+    return f"""<p><a href='{url_for("logout")}'>Выйти из профиля</a></p>
+                <p> user info: {current_user.get_id()}"""
 
 # админка детских садов
 @app.route('/adminds', methods=['POST', 'GET'])
+@login_required
 def adminds():
     if request.method == 'POST':
         res = dbase.insert_ds(request.form['ds'], request.form['city'])
